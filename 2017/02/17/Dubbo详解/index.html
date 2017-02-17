@@ -144,7 +144,7 @@
             
                 <span class="date">2017-02-17</span>
             
-            <a href="#disqus_thread" class="comments">Kommentare</a>
+            <a href="#disqus_thread" class="comments">Comments</a>
             
         </div>
     </div>
@@ -184,11 +184,9 @@
 <li>我们放到Linux下的一个文件夹，然后解压：<br>   #tar zxvf zookeeper-3.4.6.tar.gz</li>
 <li>然后在对应的zookeeper-3.4.6/conf 下有一个文件zoo_sample.cfg的这个文件里面配置了监听客户端连接的端口等一些信息，Zookeeper 在启动时会找zoo.cfg这个文件作为默认配置文件,所以我们复制一个名称为zoo.cfg的文件，如图所示：<img src="http://img.blog.csdn.net/20141114081515468?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY29uZ2Nvbmc2OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="">                                            </li>
 </ol>
-<pre><code>  我们查看一下这个文件的里面的一些配置信息，如图所示： ![](http://img.blog.csdn.net/20141114081527231?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY29uZ2Nvbmc2OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
-
-
-
-说明：
+<pre><code>我们查看一下这个文件的里面的一些配置信息，如图所示:  
+</code></pre><p><img src="http://img.blog.csdn.net/20141114081527231?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY29uZ2Nvbmc2OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<pre><code>说明：
 
 clientPort：监听客户端连接的端口。
 tickTime：基本事件单元，以毫秒为单位。它用来控制心跳和超时，默认情况下最小的会话超时时间为两倍的 tickTime。
