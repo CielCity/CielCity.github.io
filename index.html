@@ -356,20 +356,7 @@ tickTime：基本事件单元，以毫秒为单位。它用来控制心跳和超
 <h3 id="第三步：SpringMVC与Dubbo的整合，这边使用的Maven的管理项目"><a href="#第三步：SpringMVC与Dubbo的整合，这边使用的Maven的管理项目" class="headerlink" title="第三步：SpringMVC与Dubbo的整合，这边使用的Maven的管理项目"></a>第三步：SpringMVC与Dubbo的整合，这边使用的Maven的管理项目</h3><ol>
 <li><p>我们先开发服务注册的，就是提供服务，项目结构如图所示：<br><img src="http://img.blog.csdn.net/20141114081622190?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY29uZ2Nvbmc2OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>（1）test-maven-api项目加入了一个服务接口，代码如下：</p>
 <p>public interface TestRegistryService {<br>   public String hello(String name);<br>}<br>（2）test-maven-console在pom.xml加入Dubbo和Zookeeper的jar包、引用test-maven-api的jar包，代码如下：</p>
-<dependency><br>  <groupid>cn.test</groupid><br>  <artifactid>test-maven-api</artifactid><br>  <version>0.0.1-SNAPSHOT</version><br></dependency>  
-
- <dependency><br>       <groupid>com.alibaba</groupid><br>       <artifactid>dubbo</artifactid><br>       <version>2.5.3</version><br>   </dependency>  
-
-<pre><code>&lt;dependency&gt;  
-   &lt;groupId&gt;org.apache.zookeeper&lt;/groupId&gt;  
-</code></pre><p><artifactid>zookeeper</artifactid><br><version>3.4.6</version><br>     </p>
-<p> <dependency><br>   <groupid>com.github.sgroschupf</groupid><br><artifactid>zkclient</artifactid><br><version>0.1</version><br> </dependency><br>(3)test-maven-console实现具体的服务，代码如下：</p>
-<p>@Service(“testRegistryService”)<br>ublic class TestRegistryServiceImpl implements TestRegistryService {<br>public String hello(String name) {<br>  return “hello”+name;<br>}<br>(4)我们服务以及实现好了，这时要暴露服务，代码如下：</p>
-<p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;  </p>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" <span="" style="color:#cc0000;">xmlns:dubbo=”<a href="http://code.alibabatech.com/schema/dubbo" target="_blank" rel="external">http://code.alibabatech.com/schema/dubbo</a>“<br>  xmlns:context=”<a href="http://www.springframework.org/schema/context" target="_blank" rel="external">http://www.springframework.org/schema/context</a>“<br>  xsi:schemaLocation=”<a href="http://www.springframework.org/schema/beans" target="_blank" rel="external">http://www.springframework.org/schema/beans</a> <a href="http://www.springframework.org/schema/beans/spring-beans-3.1.xsd" target="_blank" rel="external">http://www.springframework.org/schema/beans/spring-beans-3.1.xsd</a><br>  <a href="http://www.springframework.org/schema/tx" target="_blank" rel="external">http://www.springframework.org/schema/tx</a> <a href="http://www.springframework.org/schema/tx/spring-tx-3.1.xsd" target="_blank" rel="external">http://www.springframework.org/schema/tx/spring-tx-3.1.xsd</a><br>  <a href="http://www.springframework.org/schema/jee" target="_blank" rel="external">http://www.springframework.org/schema/jee</a> <a href="http://www.springframework.org/schema/jee/spring-jee-3.1.xsd" target="_blank" rel="external">http://www.springframework.org/schema/jee/spring-jee-3.1.xsd</a><br>  <span style="color:#990000;"><a href="http://code.alibabatech.com/schema/dubbo" target="_blank" rel="external">http://code.alibabatech.com/schema/dubbo</a> <a href="http://code.alibabatech.com/schema/dubbo/dubbo.xsd" target="_blank" rel="external">http://code.alibabatech.com/schema/dubbo/dubbo.xsd</a></span><br>  <a href="http://www.springframework.org/schema/context" target="_blank" rel="external">http://www.springframework.org/schema/context</a> <a href="http://www.springframework.org/schema/context/spring-context-3.1.xsd" target="_blank" rel="external">http://www.springframework.org/schema/context/spring-context-3.1.xsd</a>“<br>  default-lazy-init=”false” &gt;<br> <!-- 提供方应用名称信息，这个相当于起一个名字，我们dubbo管理页面比较清晰是哪个应用暴露出来的 --><br> <dubbo:application name="dubbo_provider"></dubbo:application><br> <!-- 使用zookeeper注册中心暴露服务地址 --><br> <dubbo:registry address="zookeeper://127.0.0.1:2181" check="false" subscribe="false" register=""></dubbo:registry><br><!-- 要暴露的服务接口 --><br><dubbo:service interface="cn.test.dubbo.registry.service.TestRegistryService" ref="testRegistryService"><br></dubbo:service></beans>
-
-
-
+<dependency><br>  <groupid>cn.test</groupid><br>  <artifactid>test-maven-api</artifactid><br>  <version>0.0.1-SNAPSHOT</version><br></dependency><br><dependency><br>  <groupid>com.alibaba</groupid><br>  <artifactid>dubbo</artifactid><br>  <version>2.5.3</version><br></dependency><br><dependency><br>  <groupid>org.apache.zookeeper</groupid><br>  <artifactid>zookeeper</artifactid><br>  <version>3.4.6</version><br></dependency><br><dependency><br>  <groupid>com.github.sgroschupf</groupid><br>  <artifactid>zkclient</artifactid><br>  <version>0.1</version><br></dependency>  
 
 </li>
 </ol>
@@ -377,7 +364,34 @@ tickTime：基本事件单元，以毫秒为单位。它用来控制心跳和超
 </ol>
 </li>
 </ol>
-<p>说明：  </p>
+<p>(3)test-maven-console实现具体的服务，代码如下：</p>
+<pre><code>@Service(&quot;testRegistryService&quot;)  
+ublic class TestRegistryServiceImpl implements TestRegistryService {  
+public String hello(String name) {    
+    return &quot;hello&quot;+name;  
+}  
+</code></pre><p>(4)我们服务以及实现好了，这时要暴露服务，代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;  
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; 
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;   
+    xmlns:jee=&quot;http://www.springframework.org/schema/jee&quot;  
+    xmlns:tx=&quot;http://www.springframework.org/schema/tx&quot;  
+    &lt;span style=&quot;color:#cc0000;&quot;&gt;xmlns:dubbo=&quot;http://code.alibabatech.com/schema/dubbo&quot;&lt;/span&gt;  
+    xmlns:context=&quot;http://www.springframework.org/schema/context&quot;  
+    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd  
+    http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd  
+    &lt;span style=&quot;color:#990000;&quot;&gt;http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd&lt;/span&gt;  
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd&quot;  
+    default-lazy-init=&quot;false&quot; &gt;  
+   &lt;!-- 提供方应用名称信息，这个相当于起一个名字，我们dubbo管理页面比较清晰是哪个应用暴露出来的 --&gt;  
+   &lt;dubbo:application name=&quot;dubbo_provider&quot;&gt;&lt;/dubbo:application&gt;  
+   &lt;!-- 使用zookeeper注册中心暴露服务地址 --&gt;    
+   &lt;dubbo:registry address=&quot;zookeeper://127.0.0.1:2181&quot; check=&quot;false&quot; subscribe=&quot;false&quot; register=&quot;&quot;&gt;&lt;/dubbo:registry&gt;  
+  &lt;!-- 要暴露的服务接口 --&gt;    
+  &lt;dubbo:service interface=&quot;cn.test.dubbo.registry.service.TestRegistryService&quot; ref=&quot;testRegistryService&quot; /&gt;        
+&lt;/beans&gt;
+</code></pre><p>说明：  </p>
 <p>dubbo:registry 标签一些属性的说明： </p>
 <p>1）register是否向此注册中心注册服务，如果设为false，将只订阅，不注册。<br>2）check注册中心不存在时，是否报错。<br>3）subscribe是否向此注册中心订阅服务，如果设为false，将只注册，不订阅。<br>4）timeout注册中心请求超时时间(毫秒)。<br> 5）address可以Zookeeper集群配置，地址可以多个以逗号隔开等。  </p>
 <p>dubbo:service标签的一些属性说明：   </p>
