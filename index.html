@@ -354,23 +354,17 @@ tickTime：基本事件单元，以毫秒为单位。它用来控制心跳和超
 <li>然后到webapps/ROOT/WEB-INF下，有一个dubbo.properties文件，里面指向Zookeeper ，使用的是Zookeeper 的注册中心，如图所示：<br><img src="http://img.blog.csdn.net/20141114081552940?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY29uZ2Nvbmc2OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></li>
 <li><p>然后启动tomcat服务，用户名和密码：root,并访问服务，显示登陆页面，说明dubbo-admin部署成功，如图所示：<br><img src="http://img.blog.csdn.net/20141114081605560?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY29uZ2Nvbmc2OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
 <h3 id="第三步：SpringMVC与Dubbo的整合，这边使用的Maven的管理项目"><a href="#第三步：SpringMVC与Dubbo的整合，这边使用的Maven的管理项目" class="headerlink" title="第三步：SpringMVC与Dubbo的整合，这边使用的Maven的管理项目"></a>第三步：SpringMVC与Dubbo的整合，这边使用的Maven的管理项目</h3><ol>
-<li><p>我们先开发服务注册的，就是提供服务，项目结构如图所示：<br><img src="http://img.blog.csdn.net/20141114081622190?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY29uZ2Nvbmc2OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>（1）test-maven-api项目加入了一个服务接口，代码如下：</p>
-<p>public interface TestRegistryService {<br>   public String hello(String name);<br>}<br>（2）test-maven-console在pom.xml加入Dubbo和Zookeeper的jar包、引用test-maven-api的jar包，代码如下：</p>
-<dependency><br>  <groupid>cn.test</groupid><br>  <artifactid>test-maven-api</artifactid><br>  <version>0.0.1-SNAPSHOT</version><br></dependency><br><dependency><br>  <groupid>com.alibaba</groupid><br>  <artifactid>dubbo</artifactid><br>  <version>2.5.3</version><br></dependency><br><dependency><br>  <groupid>org.apache.zookeeper</groupid><br>  <artifactid>zookeeper</artifactid><br>  <version>3.4.6</version><br></dependency><br><dependency><br>  <groupid>com.github.sgroschupf</groupid><br>  <artifactid>zkclient</artifactid><br>  <version>0.1</version><br></dependency>  
-
+<li><p>我们先开发服务注册的，就是提供服务，项目结构如图所示：<br><img src="http://img.blog.csdn.net/20141114081622190?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY29uZ2Nvbmc2OA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>(1)test-maven-api项目加入了一个服务接口，代码如下：</p>
+<p>public interface TestRegistryService {<br>   public String hello(String name);<br>}<br>(2)test-maven-console在pom.xml加入Dubbo和Zookeeper的jar包、引用test-maven-api的jar包，代码如下：</p>
+<p><dependency><br>  <groupid>cn.test</groupid><br>  <artifactid>test-maven-api</artifactid><br>  <version>0.0.1-SNAPSHOT</version><br></dependency><br><dependency><br>  <groupid>com.alibaba</groupid><br>  <artifactid>dubbo</artifactid><br>  <version>2.5.3</version><br></dependency><br><dependency><br>  <groupid>org.apache.zookeeper</groupid><br>  <artifactid>zookeeper</artifactid><br>  <version>3.4.6</version><br></dependency><br><dependency><br>  <groupid>com.github.sgroschupf</groupid><br>  <artifactid>zkclient</artifactid><br>  <version>0.1</version><br></dependency><br>(3)test-maven-console实现具体的服务，代码如下：</p>
+<p>@Service(“testRegistryService”)<br>ublic class TestRegistryServiceImpl implements TestRegistryService {<br>public String hello(String name) {<br>  return “hello”+name;<br>}  </p>
 </li>
 </ol>
 </li>
 </ol>
 </li>
 </ol>
-<p>(3)test-maven-console实现具体的服务，代码如下：</p>
-<pre><code>@Service(&quot;testRegistryService&quot;)  
-ublic class TestRegistryServiceImpl implements TestRegistryService {  
-public String hello(String name) {    
-    return &quot;hello&quot;+name;  
-}  
-</code></pre><p>(4)我们服务以及实现好了，这时要暴露服务，代码如下：</p>
+<p>(4)我们服务以及实现好了，这时要暴露服务，代码如下：</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;  
 &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; 
  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;   
